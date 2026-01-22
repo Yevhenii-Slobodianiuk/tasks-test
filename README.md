@@ -84,6 +84,8 @@ npm run start <br>
 Mobile (dev server): http://localhost:8100 <br>
 Mobile uses the same API endpoints as Web. <br>
 
+---
+
 ### 5) Environment variables
 
 api/.env.example <br>
@@ -100,6 +102,8 @@ AUTH_TOKEN=valid-token <br>
 DATABASE_URL="postgresql://tasks_user:tasks_password@localhost:5433/tasks_app?schema=public" <br>
 
 -Adjust host/port according to your docker-compose settings. <br>
+
+---
 
 ### API
 
