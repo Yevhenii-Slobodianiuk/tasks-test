@@ -10,15 +10,15 @@ Test project that includes:
 
 ## Project structure
 
-api/ # Express API (TS), Prisma schema/migrations, auth middleware
-web/ # Angular web app + TailwindCSS
-mobile/ # Ionic Angular mobile app (Login, Tasks List)
-docker-compose.yml
+api/ # Express API (TS), Prisma schema/migrations, auth middleware <br>
+web/ # Angular web app + TailwindCSS <br>
+mobile/ # Ionic Angular mobile app (Login, Tasks List) <br>
+docker-compose.yml <br>
 
 ## Requirements
 
-- Node.js + npm
-- Docker + Docker Compose
+- Node.js + npm <br>
+- Docker + Docker Compose <br>
 
 ---
 
@@ -26,111 +26,112 @@ docker-compose.yml
 
 ### 1) Start PostgreSQL (Docker)
 
-From repository root:
-bash
-docker compose up -d
-docker compose ps
+From repository root: <br>
+bash <br>
+docker compose up -d <br>
+docker compose ps <br>
 
-Expected: db container is healthy.
-If your DB is exposed on a non-default port (e.g. 5433), keep that consistent in DATABASE_URL
+Expected: db container is healthy. <br>
+If your DB is exposed on a non-default port (e.g. 5433), keep that consistent in DATABASE_URL <br>
+
+---
 
 ### 2) API setup
 
-bash
-cd api
-npm install
+bash <br>
+cd api <br>
+npm install <br>
 
--Create .env from .env.example:
-bash
-cp .env.example .env
+-Create .env from .env.example: <br>
+bash <br>
+cp .env.example .env <br>
 
--Run migrations and generate Prisma client:
-bash
-npm exec prisma migrate dev
-npm exec prisma generate
+-Run migrations and generate Prisma client: <br>
+bash <br>
+npm exec prisma migrate dev <br>
+npm exec prisma generate <br>
 
--Start API:
-bash
-npm run dev
+-Start API: <br>
+bash <br>
+npm run dev <br>
 
-API should be available on: http://localhost:3000
-Health check:GET http://localhost:3000/health
+API should be available on: http://localhost:3000 <br>
+Health check:GET http://localhost:3000/health <br>
 
-### 2) Web setup
+---
 
--In new terminal:
-bash
-cd web
-npm install
-npm start
+### 3) Web setup
 
-Web app: http://localhost:4200
-Web uses the same API endpoints. If you use an Angular proxy, /api/\* is forwarded to the API server.
+-In new terminal: <br>
+bash <br>
+cd web <br>
+npm install <br>
+npm start <br>
 
-### 3) Mobile setup
+Web app: http://localhost:4200 <br>
+Web uses the same API endpoints. If you use an Angular proxy, /api/\* is forwarded to the API server. <br>
 
--In new terminal:
-bash
-cd mobile
-npm install
-npm run start
+---
 
-Mobile (dev server): http://localhost:8100
-Mobile uses the same API endpoints as Web.
-In browser mode it can use http://localhost:3000.
-For Android emulator, replace host with http://10.0.2.2:3000
+### 4) Mobile setup
 
-### Environment variables
+-In new terminal: <br>
+bash <br>
+cd mobile <br>
+npm install <br>
+npm run start <br>
 
-api/.env.example
+Mobile (dev server): http://localhost:8100 <br>
+Mobile uses the same API endpoints as Web. <br>
 
-# API
+### 5) Environment variables
 
-PORT=3000
+api/.env.example <br>
 
-# Auth
+-API<br>
+PORT=3000 <br>
 
--API expects: Authorization: Bearer <token>
-AUTH_TOKEN=valid-token
+-Auth <br>
+-API expects: Authorization: Bearer <token> <br>
+AUTH_TOKEN=valid-token <br>
 
-# Database
+-Database<br>
+-Example when Postgres is mapped to localhost:5433 <br>
+DATABASE_URL="postgresql://tasks_user:tasks_password@localhost:5433/tasks_app?schema=public" <br>
 
--Example when Postgres is mapped to localhost:5433
-DATABASE_URL="postgresql://tasks_user:tasks_password@localhost:5433/tasks_app?schema=public"
-
--Adjust host/port according to your docker-compose settings.
+-Adjust host/port according to your docker-compose settings. <br>
 
 ### API
 
-## Authentication
+-Authentication<br>
+Login endpoint returns a token. Other endpoints require: Authorization: Bearer <token> <br>
 
-Login endpoint returns a token. Other endpoints require: Authorization: Bearer <token>
+### Endpoints
 
-## Endpoints
+#### POST /api/login
 
-# POST /api/login
+-Request: { "email": "test@example.com", "password": "123456" } <br>
+-Response: { "token": "valid-token" } <br>
 
--Request: { "email": "test@example.com", "password": "123456" }
--Response: { "token": "valid-token" }
+#### GET /api/tasks (auth required)
 
-# GET /api/tasks (auth required)
+-Returns list of tasks <br>
 
--Returns list of tasks
+#### POST /api/tasks (auth required)
 
-# POST /api/tasks (auth required)
+-Request: { "title": "buy milk!" } <br>
 
--Request: { "title": "buy milk!" }
+#### GET /api/tasks/:id (auth required)
 
-# GET /api/tasks/:id (auth required)
+-Returns a single task (including notes) <br>
 
--Returns a single task (including notes)
+#### POST /api/tasks/:id/notes
 
-# POST /api/tasks/:id/notes
-
--Request: { "text": "#fix button broken" }
+-Request: { "text": "#fix button broken" } <br>
 
 ### Usefull command
 
--In /api:
-npm exec prisma studio
-Check your db
+-In /api: <br>
+bash <br>
+npm exec prisma studio <br>
+Check your db <br>
