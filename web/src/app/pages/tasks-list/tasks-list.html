@@ -38,7 +38,7 @@
 
     <!-- List tasks -->
     <ng-container *ngIf="tasks$ | async as tasks; else loadingTpl">
-      <div *ngIf="tasks.length === 0" class="opacity-70 text-sm">No tasks yet.</div>
+      <div *ngIf="tasks.length === 0" class="text-white text-sm">No tasks yet.</div>
 
       <ul
         class="bg-[#1f1f1f] border border-[#333333] rounded-2xl overflow-hidden"

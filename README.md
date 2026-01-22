@@ -58,8 +58,9 @@ Health check:GET http://localhost:3000/health
 
 ### 2) Web setup
 
+-In new terminal:
 bash
-cd ../web
+cd web
 npm install
 npm start
 
@@ -68,8 +69,9 @@ Web uses the same API endpoints. If you use an Angular proxy, /api/\* is forward
 
 ### 3) Mobile setup
 
+-In new terminal:
 bash
-cd ../mobile
+cd mobile
 npm install
 npm run start
 
@@ -126,3 +128,9 @@ Login endpoint returns a token. Other endpoints require: Authorization: Bearer <
 # POST /api/tasks/:id/notes
 
 -Request: { "text": "#fix button broken" }
+
+### Usefull command
+
+-In /api:
+npm exec prisma studio
+Check your db
