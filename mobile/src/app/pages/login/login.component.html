@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label position="stacked">Email</ion-label>
+    <ion-input
+      [value]="email"
+      (ionInput)="email = $any($event.target).value"
+      inputmode="email"
+    ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Password</ion-label>
+    <ion-input
+      [value]="password"
+      (ionInput)="password = $any($event.target).value"
+      type="password"
+    ></ion-input>
+  </ion-item>
+
+  <ion-text color="danger" *ngIf="error">
+    <p>{{ error }}</p>
+  </ion-text>
+
+  <ion-button expand="block" (click)="submit()" [disabled]="loading">
+    {{ loading ? "Logging in..." : "Login" }}
+  </ion-button>
+</ion-content>

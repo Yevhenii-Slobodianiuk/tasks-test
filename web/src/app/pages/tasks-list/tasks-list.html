@@ -1,0 +1,67 @@
+<div class="space-y-4 bg-[#121212] min-h-screen">
+  <div class="flex justify-between items-center bg-[#1f1f1f] p-6 border-[#333333] border-b">
+    <h1 class="font-semibold text-white text-2xl">Tasks</h1>
+    <button class="px-3 py-2 text-[#4d8dff] cursor-pointer" (click)="logout()">LOGOUT</button>
+  </div>
+
+  <!-- Create task -->
+  <div class="px-4">
+    <div class="space-y-3 bg-[#1f1f1f] mb-4 p-4 border border-[#333333] rounded-2xl text-white">
+      <div class="font-medium">Create task</div>
+
+      <div class="flex gap-2">
+        <input
+          class="flex-1 bg-[#1f1f1f] p-2 border border-[#333333] rounded-xl"
+          placeholder="e.g. buy milk!"
+          [value]="createTitle"
+          (input)="onTitleInput($event)"
+          (keydown.enter)="createTask()"
+        />
+
+        <button
+          class="bg-[#4d8dff] px-4 py-2 border border-[#CBD5E1] rounded-xl text-white cursor-pointer"
+          [disabled]="creating"
+          (click)="createTask()"
+        >
+          {{ creating ? 'Creating...' : 'Create' }}
+        </button>
+      </div>
+
+      <div *ngIf="createError" class="text-red-600 text-sm">
+        {{ createError }}
+      </div>
+
+      <div class="opacity-70 text-xs">
+        Tip: If title ends with "!", backend marks it as important.
+      </div>
+    </div>
+
+    <!-- List tasks -->
+    <ng-container *ngIf="tasks$ | async as tasks; else loadingTpl">
+      <div *ngIf="tasks.length === 0" class="opacity-70 text-sm">No tasks yet.</div>
+
+      <ul
+        class="bg-[#1f1f1f] border border-[#333333] rounded-2xl overflow-hidden"
+        *ngIf="tasks.length > 0"
+      >
+        <li
+          *ngFor="let t of tasks"
+          class="p-3 border-[#333333] border-b text-white"
+          [ngClass]="t.important ? 'bg-[#B91C1C]' : 'bg-[#1f1f1f]'"
+        >
+          <div class="font-medium">
+            <a class="underline" [routerLink]="['/tasks', t.id]">{{ t.title }}</a>
+            <span *ngIf="t.important" class="ml-2 px-2 py-0.5 border rounded-lg text-xs">
+              important
+            </span>
+          </div>
+          <div class="opacity-70 text-xs">{{ t.slug }}</div>
+        </li>
+      </ul>
+    </ng-container>
+
+    <ng-template #loadingTpl>
+      <div>Loading...</div>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Tasks</ion-title>
+    <ion-button slot="end" fill="clear" (click)="logout()">Logout</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="tasks$ | async as tasks; else loadingTpl">
+    <ion-text *ngIf="tasks.length === 0">
+      <p>No tasks yet.</p>
+    </ion-text>
+
+    <ion-list *ngIf="tasks.length > 0">
+      <ion-item *ngFor="let t of tasks">
+        <ion-label>
+          <h2>
+            {{ t.title }}
+            <span *ngIf="t.important"> (important)</span>
+          </h2>
+          <p>{{ t.slug }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-template #loadingTpl>
+    <ion-text>
+      <p>Loading...</p>
+    </ion-text>
+  </ng-template>
+</ion-content>

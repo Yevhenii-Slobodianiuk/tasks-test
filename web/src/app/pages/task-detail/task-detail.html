@@ -1,0 +1,85 @@
+<div class="space-y-4 bg-[#121212] min-h-screen">
+  <div
+    class="flex justify-between items-center bg-[#1f1f1f] p-6 border-[#333333] border-b text-white"
+  >
+    <div class="flex items-center gap-2">
+      <button
+        class="bg-[#2f2f2f] px-5 py-2 border border-[#333333] rounded-xl text- cursor-pointer"
+        (click)="backToList()"
+      >
+        Back
+      </button>
+      <h1 class="font-semibold text-2xl">Task</h1>
+    </div>
+
+    <button class="px-3 py-2 text-[#4d8dff] cursor-pointer" (click)="logout()">Logout</button>
+  </div>
+
+  <div class="space-y-2 px-4">
+    <ng-container *ngIf="task$ | async as task; else loadingTpl">
+      <div class="space-y-2 bg-[#1f1f1f] p-4 p-4 border border-[#333333] rounded-2xl text-white">
+        <div class="font-medium text-xl">
+          {{ task.title }}
+          <span *ngIf="task.important" class="ml-2 px-2 py-0.5 border rounded-lg text-xs">
+            important
+          </span>
+        </div>
+
+        <div class="opacity-70 text-sm">Slug: {{ task.slug }}</div>
+        <div class="opacity-70 text-xs">ID: {{ task.id }}</div>
+      </div>
+
+      <div class="space-y-3 bg-[#1f1f1f] p-4 p-4 border border-[#333333] rounded-2xl text-white">
+        <div class="font-medium">Add note</div>
+
+        <textarea
+          class="bg-[#1f1f1f] p-2 border border-[#333333] rounded-xl w-full"
+          rows="3"
+          placeholder="e.g. #fix #ui button broken"
+          [value]="noteText"
+          (input)="noteText = $any($event.target).value"
+        ></textarea>
+
+        <div *ngIf="addError" class="text-red-600 text-sm">
+          {{ addError }}
+        </div>
+
+        <button
+          class="bg-[#4d8dff] px-4 py-2 border border-[#CBD5E1] rounded-xl text-white cursor-pointer"
+          [disabled]="adding"
+          (click)="addNote()"
+        >
+          {{ adding ? 'Adding...' : 'Add note' }}
+        </button>
+
+        <div class="opacity-70 text-xs">
+          Tip: Notes starting with #tags will be parsed by backend.
+        </div>
+      </div>
+
+      <div class="space-y-3 bg-[#1f1f1f] p-4 border border-[#333333] rounded-2xl text-white">
+        <div class="font-medium">Notes</div>
+
+        <div *ngIf="task.notes.length === 0" class="opacity-70 text-sm">No notes yet.</div>
+
+        <ul class="space-y-2" *ngIf="task.notes.length > 0">
+          <li *ngFor="let n of task.notes" class="p-3 border border-[#333333] rounded-xl">
+            <div class="text-sm">{{ n.text }}</div>
+
+            <div class="flex flex-wrap gap-2 mt-2" *ngIf="n.tags.length > 0">
+              <span *ngFor="let tag of n.tags" class="px-2 py-0.5 border rounded-lg text-xs">
+                #{{ tag }}
+              </span>
+            </div>
+
+            <div class="opacity-70 mt-2 text-xs">{{ n.createdAt }}</div>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+
+    <ng-template #loadingTpl>
+      <div>Loading...</div>
+    </ng-template>
+  </div>
+</div>

@@ -1,9 +1,14 @@
-node_modules/
+build/
 
 .env
+**/.env
 
-dist/
+**/node_modules/
 
-build/
+**/dist/
+
+**/.angular/
+
+**/www/
 
 .DS_Store
